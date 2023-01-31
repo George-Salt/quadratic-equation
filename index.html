@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8"/>
+  <title>Решить квадратное уравнение</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" type="image/png" href="icon.png"/>
+</head>
+
+<body>
+  <div class="main-content">
+    <h1 class="header-text">Решить квадратное уравнение</h1>
+    <form class="form">
+      <input class="ratio-a" type="text" placeholder="Введите коэффициент A">
+      <input class="ratio-b" type="text" placeholder="Введите коэффициент B">
+      <input class="ratio-c" type="text" placeholder="Введите коэффициент C">
+    </form>
+    <div class="button">
+      <h2>Решить уравнение</h2>
+    </div>
+    <div class="answers-container">
+      <h3 class="discriminant"></h3>
+      <div class="roots">
+        <h2 class="header">Корни уравнения</h2>
+        <div class="answers">
+          <h1 class="root1"></h1>
+          <h1 class="root2"></h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    let button = document.querySelector(".main-content .button");
+    let discriminant = document.querySelector(".discriminant");
+    let root1 = document.querySelector(".root1");
+    let root2 = document.querySelector(".root2");
+    let roots = document.querySelector(".roots");
+    let rootsHeader = document.querySelector(".roots .header");
+    let ratioA = document.querySelector(".ratio-a");
+    let ratioB = document.querySelector(".ratio-b");
+    let ratioC = document.querySelector(".ratio-c");
+
+    discriminant.style.visibility = "hidden";
+    roots.style.visibility = "hidden";
+
+    button.addEventListener("click", () => {
+      if (!ratioA.value == "") {
+        if (!ratioB.value == "") {
+          if (!ratioC.value == "") {
+            discr = (ratioB.value ** 2) - (4 * ratioA.value * ratioC.value);
+            discriminant.textContent =  `Дискриминант: ${discr}`;
+            discriminant.style.visibility = "visible";
+            
+            if (discr >= 0) {
+              rootsHeader.textContent = "Корни уравнения";
+              root1.textContent = ((-ratioB.value + Math.sqrt(discr)) / (2 * ratioA.value)).toFixed(1);
+              root2.textContent = ((-ratioB.value - Math.sqrt(discr)) / (2 * ratioA.value)).toFixed(1);
+              roots.style.visibility = "visible";
+            } else {
+              rootsHeader.textContent = "Корней нет, т.к. дискриминант отрицательный";
+              roots.style.visibility = "visible";
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
