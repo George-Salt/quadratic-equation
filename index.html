@@ -1,71 +1,169 @@
 <!doctype html>
 <html lang="ru">
+
 <head>
-  <meta charset="utf-8"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+
   <title>Решить квадратное уравнение</title>
-  <link rel="stylesheet" href="style.css"/>
-  <link rel="icon" type="image/png" href="icon.png"/>
+
+  <link rel="icon" href="icon.png">
+
+  <link rel="stylesheet" href="static/css/main.css">
 </head>
 
 <body>
-  <div class="main-content">
-    <h1 class="header-text">Решить квадратное уравнение</h1>
-    <form class="form">
-      <input class="ratio-a" type="text" placeholder="Введите коэффициент A">
-      <input class="ratio-b" type="text" placeholder="Введите коэффициент B">
-      <input class="ratio-c" type="text" placeholder="Введите коэффициент C">
-    </form>
-    <div class="button">
-      <h2>Решить уравнение</h2>
-    </div>
-    <div class="answers-container">
-      <h3 class="discriminant"></h3>
-      <div class="roots">
-        <h2 class="header">Корни уравнения</h2>
-        <div class="answers">
-          <h1 class="root1"></h1>
-          <h1 class="root2"></h1>
-        </div>
+  <main>
+    <div class="header">
+      <h1>Квадратное уравнение</h1>
+
+      <div class="tip">
+        <p><b>Квадратное уравнение</b> имеет вид <span class="purple">ax²&nbsp;+&nbsp;bx&nbsp;+&nbsp;c&nbsp;=&nbsp;0</span></p>
+        <p><b>a</b> - <span class="orange underline">a</span>x² + bx + c = 0</p>
+        <p><b>b</b> - ax² + <span class="orange underline">b</span>x + c = 0</p>
+        <p><b>c</b> - ax² + bx + <span class="orange underline">c</span> = 0</p>
+        <p>Если перед&nbsp;x ничего нет, значит <b>коэффициент равен&nbsp;1</b></p>
       </div>
     </div>
-  </div>
+
+    <form>
+      <input class="coefficient-a" type="text" placeholder="Коэффициент a" onkeyup="checkIfFilled()">
+      <input class="coefficient-b" type="text" placeholder="Коэффициент b" onkeyup="checkIfFilled()">
+      <input class="coefficient-c" type="text" placeholder="Коэффициент c" onkeyup="checkIfFilled()">
+    </form>
+
+    <div class="action unavailible">
+      <p class="tip">Чтобы продолжить, заполните все поля</p>
+      <p class="equation">ax² + bx + c = 0</p>
+      <button class="button solve" onclick="solveQuadraticEquation()">Решить уравнение</button>
+    </div>
+
+    <div class="solution">
+      <h2>Решение</h2>
+
+      <div class="steps">
+        <p class="discriminant">D (дискриминант): 36</p>
+
+        <div class="root root1">
+          <p>x₁ =</p>
+
+          <div class="fraction filled">
+            <p class="up">-5 + √36</p>
+            <p class="down">2</p>
+          </div>
+
+          <p class="output">= 35</p>
+        </div>
+
+        <div class="root root2">
+          <p>x₂ =</p>
+
+          <div class="fraction filled">
+            <p class="up">-5 - √36</p>
+            <p class="down">2</p>
+          </div>
+
+          <p class="output">= 80</p>
+        </div>
+
+        <b class="answer">Ответ: 25, -8</b>
+      </div>
+    </div>
+  </main>
+
   <script>
-    let button = document.querySelector(".main-content .button");
-    let discriminant = document.querySelector(".discriminant");
-    let root1 = document.querySelector(".root1");
-    let root2 = document.querySelector(".root2");
-    let roots = document.querySelector(".roots");
-    let rootsHeader = document.querySelector(".roots .header");
-    let ratioA = document.querySelector(".ratio-a");
-    let ratioB = document.querySelector(".ratio-b");
-    let ratioC = document.querySelector(".ratio-c");
+    let coefficientA = document.querySelector(".coefficient-a");
+    let coefficientB = document.querySelector(".coefficient-b");
+    let coefficientC = document.querySelector(".coefficient-c");
 
-    discriminant.style.visibility = "hidden";
-    roots.style.visibility = "hidden";
+    let actionContainer = document.querySelector("main .action");
+    let actionEquation = document.querySelector("main .action .equation");
 
-    button.addEventListener("click", () => {
-      if (!ratioA.value == "") {
-        if (!ratioB.value == "") {
-          if (!ratioC.value == "") {
-            discr = (ratioB.value ** 2) - (4 * ratioA.value * ratioC.value);
-            discriminant.textContent =  `Дискриминант: ${discr}`;
-            discriminant.style.visibility = "visible";
-            
-            if (discr >= 0) {
-              rootsHeader.textContent = "Корни уравнения";
-              root1.textContent = ((-ratioB.value + Math.sqrt(discr)) / (2 * ratioA.value)).toFixed(1);
-              root2.textContent = ((-ratioB.value - Math.sqrt(discr)) / (2 * ratioA.value)).toFixed(1);
-              roots.style.visibility = "visible";
-            } else {
-              rootsHeader.textContent = "Корней нет, т.к. дискриминант отрицательный";
-              roots.style.visibility = "visible";
-              root1.textContent = "";
-              root2.textContent = "";
-            }
-          }
-        }
-      }
-    });
+    let solutionContainer = document.querySelector("main .solution");
+    let discriminant = solutionContainer.querySelector(".discriminant");
+    let root1 = solutionContainer.querySelector(".root1");
+    let root2 = solutionContainer.querySelector(".root2");
+    let answer = solutionContainer.querySelector(".answer");
+
+    solutionContainer.style.display = "none";
+
+    function solveQuadraticEquation() {
+      if (coefficientA.value && coefficientB.value && coefficientC.value) {
+        let a = Number(coefficientA.value);
+        let b = Number(coefficientB.value);
+        let c = Number(coefficientC.value);
+
+        let discr = (b ** 2) - (4 * a * c);
+        discriminant.textContent = `D (дискриминант): ${discr}`;
+
+        if (discr > 0) {
+          root1.querySelector(".fraction.filled .up").textContent = `${-b} + √${discr}`;
+          root1.querySelector(".fraction.filled .down").textContent = `${2 * a}`;
+          root1.querySelector(".output").textContent = `= ${((-b + Math.sqrt(discr)) / (2 * a))}`;
+
+          root2.querySelector(".fraction.filled .up").textContent = `${-b} - √${discr}`;
+          root2.querySelector(".fraction.filled .down").textContent = `${2 * a}`;
+          root2.querySelector(".output").textContent = `= ${((-b - Math.sqrt(discr)) / (2 * a))}`;
+
+          root1.style.display = "flex";
+          root2.style.display = "flex";
+
+          answer.textContent = `Ответ: ${((-b + Math.sqrt(discr)) / (2 * a))}, ${((-b - Math.sqrt(discr)) / (2 * a))}`;
+        } else if (discr == 0) {
+          root1.querySelector(".fraction.filled .up").textContent = `${-b} + √${discr}`;
+          root1.querySelector(".fraction.filled .down").textContent = `${2 * a}`;
+          root1.querySelector(".output").textContent = `= ${((-b + Math.sqrt(discr)) / (2 * a))}`;
+
+          root1.style.display = "flex";
+          root2.style.display = "none";
+
+          answer.textContent = `Ответ: ${((-b + Math.sqrt(discr)) / (2 * a))}`;
+        } else {
+          root1.style.display = "none";
+          root2.style.display = "none";
+
+          answer.textContent = "Ответ: D < 0, поэтому корней нет";
+        };
+        solutionContainer.style.display = "flex";
+      };
+    };
+
+    function createEquationWithCoefficients() {
+      let a = coefficientA.value;
+
+      let b = coefficientB.value
+      if (Number(coefficientB.value) < 0) {
+        b = `- ${Number(coefficientB.value) - 2 * Number(coefficientB.value)}`;
+      } else if (Number(coefficientB.value) == 0) {
+        b = "";
+      } else {
+        b = `+ ${coefficientB.value}`;
+      };
+
+      let c = coefficientC.value;
+      if (Number(coefficientC.value) < 0) {
+        c = `- ${Number(coefficientC.value) - 2 * Number(coefficientC.value)}`;
+      } else if (Number(coefficientC.value) == 0) {
+        c = "";
+      } else {
+        c = `+ ${coefficientC.value}`;
+      };
+
+      let equation = `${a}x² ${b}x ${c} = 0`;
+      return equation;
+    };
+
+    function checkIfFilled() {
+      solutionContainer.style.display = "none";
+      if (coefficientA.value && coefficientB.value && coefficientC.value) {
+        actionContainer.classList.remove("unavailible");
+
+        actionEquation.textContent = `${createEquationWithCoefficients()}`;
+      } else {
+        actionContainer.classList.add("unavailible");
+      };
+    };
   </script>
 </body>
+
 </html>

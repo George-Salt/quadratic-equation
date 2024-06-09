@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap");
+
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  font-family: "Montserrat", sans-serif;
+  padding: 0 10px;
+}
+
+input[type="text"] {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  padding: 10px 15px;
+  border: 2px solid;
+  border-radius: 15px;
+  outline: none;
+}
+
+input[type="text"]:focus {
+  color: mediumpurple;
+  border-color: mediumpurple;
+}
+
+input[type="text"]::placeholder {
+  color: gray;
+}
+
+span.purple {
+  color: mediumpurple;
+}
+
+span.orange {
+  color: darkorange;
+}
+
+button {
+  background: darkorange;
+  color: white;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 25px;
+  padding: 50px 0;
+  transition: padding 0.3s;
+}
+
+main .header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+
+main form {
+  display: flex;
+  gap: 5px;
+}
+
+main .action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+main .action .tip {
+  color: gray;
+  display: none;
+}
+
+main .action.unavailible .tip {
+  display: block;
+}
+
+main .action.unavailible button,
+main .action.unavailible .equation {
+  display: none;
+}
+
+main .solution {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+
+main .solution .steps {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+main .solution .root {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+main .solution .fraction {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main .solution .fraction .up {
+  border-bottom: 2px solid black;
+}
+
+
+@media screen and (max-width: 800px) {
+  form {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  main {
+    padding: 25px 0;
+  }
+}
